@@ -70,3 +70,10 @@ type Address struct {
 func (addr Address) String() (s string) {
 	return fmt.Sprintf("%s:%d", addr.Host, addr.Port)
 }
+
+type Slot struct {
+	Item uint16
+	Count uint8
+	Damage uint16
+	NBT []byte
+}
