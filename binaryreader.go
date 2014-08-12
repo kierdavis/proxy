@@ -104,3 +104,45 @@ func (br BinaryReader) ReadPacket() (p []byte, err error) {
 	
 	return body, nil
 }
+
+func (br BinaryReader) ReadSlot() (slot *Slot, err error) {
+	item, err := br.ReadUint16()
+	if err != nil {
+		return nil, err
+	}
+	
+	if item == 0xffff {
+		return nil, nil
+	}
+	
+	count, err := br.ReadUint8()
+	if err != nil {
+		return nil, err
+	}
+	
+	damage, err := br.ReadUint16()
+	if err != nil {
+		return nil, err
+	}
+	
+	nbtLength, err := br.ReadUint16()
+	if err != nil {
+		return nil, err
+	}
+	
+	var nbt []byte
+	
+	if nbtLength != 0xffff {
+		nbt, err = br.ReadBytes(int(nbtLength))
+		if err != nil {
+			return nil, err
+		}
+	}
+	
+	return &Slot{
+		Item: item,
+		Count: count,
+		Damage: damage,
+		NBT: nbt,
+	}, nil
+}

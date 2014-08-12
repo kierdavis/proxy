@@ -84,3 +84,35 @@ func (br BinaryWriter) WritePacket(p []byte) (err error) {
 	
 	return br.WriteBytes(p)
 }
+
+func (br BinaryWriter) WriteSlot(slot *Slot) (err error) {
+	if slot == nil {
+		return br.WriteUint16(0xffff)
+	}
+	
+	err = br.WriteUint16(slot.Item)
+	if err != nil {
+		return err
+	}
+	
+	err = br.WriteUint8(slot.Count)
+	if err != nil {
+		return err
+	}
+	
+	err = br.WriteUint16(slot.Damage)
+	if err != nil {
+		return err
+	}
+	
+	if len(slot.NBT) == 0 {
+		return br.WriteUint16(0xffff)
+	}
+	
+	err = br.WriteUint16(uint16(len(slot.NBT)))
+	if err != nil {
+		return err
+	}
+	
+	return br.WriteBytes(slot.NBT)
+}
