@@ -2,11 +2,18 @@
 // chat message packets sent to the server.
 package main
 
+import (
+    "github.com/kierdavis/proxy"
+    "log"
+    "os"
+    "strings"
+)
+
 // TCP address on which the proxy server will listen.
-const ListenAddr = proxy.Address{"localhost", 25567}
+var ListenAddr = proxy.Address{"localhost", 25567}
 
 // TCP address that connections will be forwarded to.
-const ServerAddr = proxy.Address{"localhost", 25565}
+var ServerAddr = proxy.Address{"localhost", 25565}
 
 // Minecraft account login details.
 // Don't forget to use your email address for the username if you are using a
@@ -63,7 +70,7 @@ func chatPacketHandler(session *proxy.Session, packet *PS1ChatMessagePacket) boo
 		newPacket.JsonData = "{'text':'Hello from the proxy!','color':'red'}"
 		
 		// Send this packet to the client.
-		session.send(newPacket)
+		session.Send(newPacket)
 		
 		// Return false so that the original packet never reaches the server (if
 		// it did, the server would not recognise the /greet command and would
