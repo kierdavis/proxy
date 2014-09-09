@@ -87,11 +87,11 @@ func (sem *serverEncryptionManager) handleEncryptionRequest(packet *LC1Encryptio
 }
 
 func (sem *serverEncryptionManager) generateSharedSecret() (err error) {
-	sem.sharedSecret = []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18}
-	return nil
-	//sem.sharedSecret = make([]byte, 16)
-	//_, err = io.ReadFull(crand.Reader, sem.sharedSecret)
-	//return err
+	//sem.sharedSecret = []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18}
+	//return nil
+	sem.sharedSecret = make([]byte, 16)
+	_, err = io.ReadFull(crand.Reader, sem.sharedSecret)
+	return err
 }
 
 func (sem *serverEncryptionManager) notifyJoin() (err error) {
